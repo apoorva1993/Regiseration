@@ -6,9 +6,16 @@ import re
 ema= "[^@]+@[^@]+\.[^@]+"
 mob= "^[0-9]{10}$"
 
+
 def validfields(fname, lname, uname, pwd, cpwd, email1, mobile):
-    email_validation = re.match(ema, email1)
-    mobile_validation = re.match(mob, mobile)
+    '''
+     This function check all validation and check point for user registration form.
+     This function validate for first name,last name,username,password,email validation
+     and mobile validation.If any validation fail,function return false and error message
+     so that we see what type error occured. 
+    '''
+    email_validation = re.match(ema, email1) # regular expression for email validation
+    mobile_validation = re.match(mob, mobile) # regular expression for mobile validation
     
     if len(fname)<=1:
 	   # print ("First name should be greater than 2")
@@ -34,7 +41,7 @@ def validfields(fname, lname, uname, pwd, cpwd, email1, mobile):
     else:	
 	    return True, "No Error Found"
 
-#Multiple Entries
+#Multiple Entries pass in registration form.
 entry = [
 {"fname":"", "lname":"", "uname":"", "pwd":"", "cpwd":"", "email1":"", "mobile": ""},
 {"fname":"T", "lname":"Test", "uname":"testtest", "pwd":"12345678", "cpwd":"12345678", "email1":"abcd@test.com", "mobile": "9876543210"},
@@ -59,7 +66,7 @@ for data in entry:
 	email1 = data['email1']
 	mobile = data['mobile']
 
-    #Chrome driver path
+        #Chrome driver path
 	driverpath= "C:/Users/apoorva.baranwal/Desktop/Py_program/drivers/chromedriver.exe"
 	driver =webdriver.Chrome(driverpath)
 
@@ -68,7 +75,7 @@ for data in entry:
 
 	#Enter first name
 	felem = driver.find_element_by_name("first_name")
-	felem.send_keys(fname)
+	felem.send_keys(fname) # send_keys function used for filling entry in html form 
 
 	#Enter last name
 	lelem = driver.find_element_by_name("last_name")
@@ -97,10 +104,11 @@ for data in entry:
 	celem = driver.find_element_by_name("contact_no")
 	celem.send_keys(mobile)
 
-	#time.sleep(2)
-
+	
+        # call validfields function for check validation for all entries.
+        # this fuction return true or false.  
 	status, message = validfields(fname, lname, uname, pwd, cpwd, email1, mobile)
-	print (message)
+	
 	if status == True:
 		#Press submit button
 		driver.find_element_by_class_name("btn").click()
